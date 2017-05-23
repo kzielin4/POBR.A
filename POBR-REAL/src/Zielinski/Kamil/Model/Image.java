@@ -28,11 +28,13 @@ public class Image
 
 	public void testMethod()
 	{
+		
 		System.out.println(img.depth());
 		System.out.println(img.rows());
 		System.out.println(img.get(100, 100));
 		List<Mat> lRgb = new ArrayList<Mat>(3);
 		Core.split(img, lRgb);
 		System.out.println(lRgb.get(0));
+
 	}
 }
