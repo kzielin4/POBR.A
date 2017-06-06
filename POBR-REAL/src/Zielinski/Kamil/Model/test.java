@@ -11,28 +11,39 @@ public class test
 
 	public static void main(String[] args)
 	{
-		String imageName = "duze.jpg";
+		String imageName = "l2.jpg";
 		BufferedImage image = new ImageReader().getImage(imageName);
-		int width = image.getWidth();
-		int height = image.getHeight();
-		int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
-		System.out.println(pixels.length + "  x: " + width + " y: " + height);
-//		Pixel p1 = new Pixel((height - 1) * 161 + 183);
-//		System.out.println(p1.getRed());
-//		System.out.println(p1.getGreen());
-//		System.out.println(p1.getBlue());
-		ArrayList<Pixel> list = new ArrayList<Pixel>();
-		int x=0;
-		for (int pixel : pixels)
+//		int width = image.getWidth();
+//		int height = image.getHeight();
+//		int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+//		System.out.println(pixels.length + "  x: " + width + " y: " + height);
+////		Pixel p1 = new Pixel((height - 1) * 161 + 183);
+////		System.out.println(p1.getRed());
+////		System.out.println(p1.getGreen());
+////		System.out.println(p1.getBlue());
+//		ArrayList<Pixel> list = new ArrayList<Pixel>();
+//		int x=0;
+//		for (int pixel : pixels)
+//		{
+//			Pixel p1 = new Pixel(pixel);
+//			if(p1.getRed()>150 )
+//			{
+//				++x;
+//			}
+//		}
+		Pixel[][] pixelMatrix = PixelMatrix.mapImage(image);
+		BufferedImage resultImage = new Finder().find(image);
+        File output = new File("source.png");
+        try
 		{
-			Pixel p1 = new Pixel(pixel);
-			if(p1.getRed()>150 )
-			{
-				++x;
-			}
+			ImageIO.write(resultImage, "png", output);
+			System.out.println("done");
 		}
-		System.out.println(x);
-
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}	
+		
 	}
 
 }
