@@ -9,7 +9,7 @@ public class Segmentation
 			for (int j = 0; j < source[0].length; j++)
 			{
 				Pixel pixel = source[i][j];
-				if ((pixel.getBlue()>pixel.getRed() && pixel.getBlue()>pixel.getGreen() && pixel.getBlue() > 68  && pixel.getGreen()<117 && pixel.getRed()<117 && pixel.getRed()<= pixel.getGreen())||  (pixel.getRed() > 100  && pixel.getBlue()<pixel.getRed() && pixel.getRed()>pixel.getGreen() && pixel.getGreen()<117 && pixel.getBlue()<130 && pixel.getBlue()>= pixel.getGreen()) )
+				if ((pixel.getBlue()>pixel.getRed() && pixel.getBlue()>pixel.getGreen() && pixel.getBlue() > 68  && pixel.getGreen()<117 && pixel.getRed()<117 )||  (pixel.getRed() >= 89  && pixel.getBlue()<pixel.getRed() && pixel.getRed()>pixel.getGreen() && pixel.getGreen()<117 && pixel.getBlue()<130 ) )
 				{
 					source[i][j] = Pixel.WHITE;
 				}

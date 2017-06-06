@@ -19,7 +19,12 @@ public class Segment
 		this.widthInterval = widthInterval;
 		this.heightInterval = heightInterval;
 	}
- /*
+	public Segment(SegmentType type, List<Point> segmentPoints)
+	{
+		points = segmentPoints;
+		segmentType = type;
+	}
+	/*
 	Tuple<Integer, Integer> widthInterval()
 	{
 		if (widthInterval == null)

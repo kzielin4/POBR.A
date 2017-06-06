@@ -1,6 +1,11 @@
 package Zielinski.Kamil.Model;
 
-public class SegmentType
-{
-
+enum SegmentType {
+    LR,
+    LE,
+    LA,
+    LL,
+    KPION,
+    KPOZIOM,
+    UNKNOWN
 }
