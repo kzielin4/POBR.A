@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class test
 {
@@ -13,12 +14,25 @@ public class test
 		String imageName = "duze.jpg";
 		BufferedImage image = new ImageReader().getImage(imageName);
 		int width = image.getWidth();
-        int height = image.getHeight();
-        int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
-        Pixel p1=new Pixel(height*86+105);
-        System.out.println(p1.getRed());
-        System.out.println(p1.getGreen());
-        System.out.println(p1.getBlue());
+		int height = image.getHeight();
+		int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+		System.out.println(pixels.length + "  x: " + width + " y: " + height);
+//		Pixel p1 = new Pixel((height - 1) * 161 + 183);
+//		System.out.println(p1.getRed());
+//		System.out.println(p1.getGreen());
+//		System.out.println(p1.getBlue());
+		ArrayList<Pixel> list = new ArrayList<Pixel>();
+		int x=0;
+		for (int pixel : pixels)
+		{
+			Pixel p1 = new Pixel(pixel);
+			if(p1.getRed()>150 )
+			{
+				++x;
+			}
+		}
+		System.out.println(x);
+
 	}
 
 }
