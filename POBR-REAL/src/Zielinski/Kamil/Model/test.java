@@ -11,7 +11,7 @@ public class test
 
 	public static void main(String[] args)
 	{
-		String imageName = "s1.jpg";
+		String imageName = "d2.jpg";
 		BufferedImage image = new ImageReader().getImage(imageName);
 //		int width = image.getWidth();
 //		int height = image.getHeight();

@@ -19,32 +19,57 @@ public class Segment
 		this.widthInterval = widthInterval;
 		this.heightInterval = heightInterval;
 	}
+
 	public Segment(SegmentType type, List<Point> segmentPoints)
 	{
 		points = segmentPoints;
 		segmentType = type;
 	}
-	/*
-	Tuple<Integer, Integer> widthInterval()
+
+	Tuple<Integer, Integer> heightInterval()
 	{
 		if (widthInterval == null)
 		{
-			widthInterval = Tuple.from(extract(points, p -> p.width, reverseIntegerComparator(), 0),
-					extract(points, p -> p.width, Integer::compare, 0));
+			int maxX = 0;
+			int minX = 999999999;
+			for (Point point : points)
+			{
+				if(point.getX()>maxX)
+				{
+					maxX=point.getX();
+				}
+				if(point.getX()< minX)
+				{
+					minX=point.getX();
+				}
+			}
+			widthInterval = Tuple.from(minX,maxX);
 		}
 		return widthInterval;
 	}
 
-	Tuple<Integer, Integer> heightInterval()
+	Tuple<Integer, Integer> widthInterval()
 	{
 		if (heightInterval == null)
 		{
-			heightInterval = Tuple.from(extract(points, p -> p.height, reverseIntegerComparator(), 0),
-					extract(points, p -> p.height, Integer::compare, 0));
+			int maxY = 0;
+			int minY = 999999999;
+			for (Point point : points)
+			{
+				if(point.getY()>maxY)
+				{
+					maxY=point.getY();
+				}
+				if(point.getY()< minY)
+				{
+					minY=point.getY();
+				}
+			}
+			heightInterval = Tuple.from(minY,maxY);
 		}
 		return heightInterval;
 	}
-*/
+
 	public Tuple<Integer, Integer> getWidthInterval()
 	{
 		return widthInterval;

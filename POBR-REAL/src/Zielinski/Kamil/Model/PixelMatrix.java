@@ -63,7 +63,7 @@ public class PixelMatrix
 		int height = pixels.length;
 		Pixel[][] pixelMatrix = new Pixel[height][width];
 		for (int i = 0; i < height; i++)
-			pixelMatrix[i] = Arrays.copyOf(pixelMatrix[i], width);
+			pixelMatrix[i] = Arrays.copyOf(pixels[i], width);
 		return pixelMatrix;
 	}
 }

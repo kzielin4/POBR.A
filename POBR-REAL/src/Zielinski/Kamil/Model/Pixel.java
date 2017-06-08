@@ -7,6 +7,7 @@ class Pixel
 
 	final static Pixel BLACK = new Pixel(0, 0, 0);
 	final static Pixel WHITE = new Pixel(255, 255, 255);
+	final static Pixel BLUE = new Pixel(0, 0, 255);
 
 	private final int red;
 	private final int green;
