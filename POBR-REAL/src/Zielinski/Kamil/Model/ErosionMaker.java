@@ -4,9 +4,9 @@ public class ErosionMaker
 {
 	private static final boolean[][] DEFAULT_KERNEL = new boolean[][]
 	{
-			{ false, true, true },
-			{ true, false, true },
-			{ true, true, false} 
+			{ false, true, false },
+			{ false, false, false },
+			{ false, true, false} 
 	};
 
 	Pixel[][] erode(Pixel[][] source)

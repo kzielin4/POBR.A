@@ -37,6 +37,13 @@ public class Finder
         Set<Segment> segments = new SegmentsCreator().process(pixels);
         for (Segment segment : segments)
 		{
+        	if(segment.getPoints().contains(new Point(260,236)))
+        	{
+        		for (Point point : segment.getPoints())
+				{
+					System.out.println("x: "+point.x +"  y: "+point.y);
+				}
+        	}
 			System.out.println("Points : x1-" +segment.heightInterval()._1+" x2-"+segment.heightInterval()._2 +" y1-"+segment.widthInterval()._1+" y2-"+segment.widthInterval()._2);
 		}
         //System.out.println(""+sourcePixels[0].length + " "+sourcePixels.length);

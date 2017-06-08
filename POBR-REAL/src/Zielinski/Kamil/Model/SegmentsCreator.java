@@ -22,18 +22,10 @@ public class SegmentsCreator
 				if (pixels[i][j] != Pixel.BLACK)
 				{
 					Segment seg = extractSegment(pixels, i, j);
-					if (seg.getPoints().size() > 20 && seg.getPoints().size() < 0.2 * size)
+					if (seg.getPoints().size() > 14 && seg.getPoints().size() < 0.2 * size)
 						segments.add(seg);
 				}
-				if (j == 272 && i == 221)
-				{
-					x = 1;
-				}
 			}
-		}
-		if (x == 1)
-		{
-			System.out.println("Size: " + segments.size());
 		}
 		return segments;
 	}
