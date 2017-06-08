@@ -14,7 +14,7 @@ public class SegmentsCreator
 		Set<Segment> segments = new HashSet<>();
 		System.out.println("pkt");
 		int size = pixels.length * pixels[0].length;
-		int x=0;
+		int x = 0;
 		for (int i = 0; i < pixels.length; i++)
 		{
 			for (int j = 0; j < pixels[0].length; j++)
@@ -22,18 +22,18 @@ public class SegmentsCreator
 				if (pixels[i][j] != Pixel.BLACK)
 				{
 					Segment seg = extractSegment(pixels, i, j);
-					if(seg.getPoints().size()>20 && seg.getPoints().size()<0.2*size)
+					if (seg.getPoints().size() > 20 && seg.getPoints().size() < 0.2 * size)
 						segments.add(seg);
 				}
-				if(j==272  && i== 221)
+				if (j == 272 && i == 221)
 				{
-					x=1;
+					x = 1;
 				}
 			}
 		}
-		if(x==1)
+		if (x == 1)
 		{
-			System.out.println("Size: "+segments.size());
+			System.out.println("Size: " + segments.size());
 		}
 		return segments;
 	}
@@ -45,9 +45,12 @@ public class SegmentsCreator
 		List<Point> segmentPoints = new ArrayList<>();
 		Deque<Point> stack = new LinkedList<>();
 		Pixel comparator = new Pixel(pixels[height][width]);
-		Boolean isBlue= false;
-		if( comparator == Pixel.BLUE)
-			isBlue=true;
+		Boolean isBlue = false;
+		if (comparator.getBlue()==255 && comparator.getRed()==0)
+		{
+			System.out.println("nieb");
+			isBlue = true;
+		}
 		stack.push(new Point(height, width));
 		while (!stack.isEmpty())
 		{
@@ -58,7 +61,8 @@ public class SegmentsCreator
 			{
 				for (int j = top.y - 1; j <= top.y + 1; j++)
 				{
-					if (i > 0 && i < imageHeight && j > 0 && j < imageWidth && ((pixels[i][j]==Pixel.WHITE && !isBlue)|| pixels[i][j]==Pixel.BLUE && isBlue))
+					if (i > 0 && i < imageHeight && j > 0 && j < imageWidth && ((pixels[i][j].equals(Pixel.WHITE) && !isBlue)
+							|| (pixels[i][j].equals(Pixel.BLUE)&& isBlue)))
 					{
 						stack.push(new Point(i, j));
 					}
@@ -67,6 +71,5 @@ public class SegmentsCreator
 		}
 		return new Segment(SegmentType.UNKNOWN, segmentPoints);
 	}
-	
-	
+
 }

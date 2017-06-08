@@ -14,6 +14,7 @@ public class Finder
 {
 	public BufferedImage find(BufferedImage file)
 	{
+		System.out.println("START");
 		Pixel[][] pixels = PixelMatrix.mapImage(file);
         pixels = new UnsharpMask().putMask(pixels);
         pixels = new Segmentation().threshold(pixels);
