@@ -99,4 +99,9 @@ public class Segment
 	{
 		return points;
 	}
+
+	public void setSegmentType(SegmentType segmentType)
+	{
+		this.segmentType = segmentType;
+	}
 }

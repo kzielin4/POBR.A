@@ -6,7 +6,7 @@ public class ErosionMaker
 	{
 			{ false, true, false },
 			{ false, false, false },
-			{ false, true, false} 
+			{ false, true, true} 
 	};
 
 	Pixel[][] erode(Pixel[][] source)
