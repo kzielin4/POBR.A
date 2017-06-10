@@ -9,19 +9,19 @@ public class ErosionMaker
 			{ true, true, true} 
 	};
 
-	Pixel[][] erode(Pixel[][] source)
+	Pixel[][] erode(final Pixel[][] source)
 	{
 		//System.out.println("l1: "+ (DEFAULT_KERNEL.length / 2)+" l2: "+(source[0].length - DEFAULT_KERNEL.length));
 		return erode(source, DEFAULT_KERNEL);
 	}
 
-	private Pixel[][] erode(Pixel[][] source, boolean[][] kernel)
+	private Pixel[][] erode(final Pixel[][] source, final boolean[][] kernel)
 	{
-		Pixel[][] result = PixelMatrix.deepCopy(source);
+		final Pixel[][] result = PixelMatrix.deepCopy(source);
 		//przechodmy po pixelach 
-		for (int i = kernel.length / 2; i < source.length - kernel.length / 2; i++)
+		for (int i = kernel.length / 2; i < (source.length - (kernel.length / 2)); i++)
 		{
-			for (int j = kernel.length / 2; j < source[0].length - kernel.length / 2; j++)
+			for (int j = kernel.length / 2; j < (source[0].length - (kernel.length / 2)); j++)
 			{
 				if (source[i][j] == Pixel.BLACK)
 				{
