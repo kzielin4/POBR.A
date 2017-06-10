@@ -23,7 +23,8 @@ public class SegmentsCreator
 				{
 					final Segment seg = extractSegment(pixels, i, j);
 					if ((seg.getPoints().size() > 20) && ((seg.getPoints().size() < (0.5 * size))
-							&& ((seg.widthInterval()._2 - seg.widthInterval()._1) < (0.25 * pixels[0].length)))) {
+							&& ((seg.widthInterval()._2 - seg.widthInterval()._1) < (0.25 * pixels[0].length))))
+					{
 						segments.add(seg);
 					}
 				}
@@ -41,9 +42,9 @@ public class SegmentsCreator
 		final Deque<Point> stack = new LinkedList<>();
 		final Pixel comparator = new Pixel(pixels[height][width]);
 		Boolean isBlue = false;
-		if ((comparator.getBlue()==255) && (comparator.getRed()==0))
+		if ((comparator.getBlue() == 255) && (comparator.getRed() == 0))
 		{
-			//System.out.println("nieb");
+			// System.out.println("nieb");
 			isBlue = true;
 		}
 		stack.push(new Point(height, width));
@@ -56,8 +57,9 @@ public class SegmentsCreator
 			{
 				for (int j = top.y - 1; j <= (top.y + 1); j++)
 				{
-					if ((i > 0) && (i < imageHeight) && (j > 0) && (j < imageWidth) && ((pixels[i][j].equals(Pixel.WHITE) && !isBlue)
-							|| (pixels[i][j].equals(Pixel.BLUE)&& isBlue)))
+					if ((i > 0) && (i < imageHeight) && (j > 0) && (j < imageWidth)
+							&& ((pixels[i][j].equals(Pixel.WHITE) && !isBlue)
+									|| (pixels[i][j].equals(Pixel.BLUE) && isBlue)))
 					{
 						stack.push(new Point(i, j));
 					}

@@ -2,8 +2,7 @@ package Zielinski.Kamil.Model;
 
 enum SegmentType {
     LR,
-    LE,
-    LA,
+    LAE,
     LL,
     KPION,
     KPOZIOM,
