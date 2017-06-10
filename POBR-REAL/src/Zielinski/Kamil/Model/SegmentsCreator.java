@@ -22,7 +22,7 @@ public class SegmentsCreator
 				if (pixels[i][j] != Pixel.BLACK)
 				{
 					final Segment seg = extractSegment(pixels, i, j);
-					if ((seg.getPoints().size() > 30) && ((seg.getPoints().size() < (0.5 * size))
+					if ((seg.getPoints().size() > 17) && ((seg.getPoints().size() < (0.5 * size))
 							&& ((seg.widthInterval()._2 - seg.widthInterval()._1) < (0.25 * pixels[0].length)))) {
 						segments.add(seg);
 					}

@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class test {
 
 	public static void main(final String[] args) {
-		final String imageName = "21.jpg";
+		final String imageName = "d6.jpg";
 		final BufferedImage image = new ImageReader().getImage(imageName);
 		// int width = image.getWidth();
 		// int height = image.getHeight();

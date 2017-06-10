@@ -19,7 +19,7 @@ public class SegemntTypeDetector
 		final SegmentType type = matchType(moments._1, moments._2, moments._3, shapeFactor,pix,shapeFactor2);
 		for (final Point point : segment.getPoints())
 		{
-			if ((point.x == 256) && (point.y == 311))
+			if ((point.x == 216) && (point.y == 782))
 			{
 				System.out.println("-----------------------------");
 				System.out.println("Points : x1-" +segment.heightInterval()._1+" x2-"+segment.heightInterval()._2 +" y1-"+segment.widthInterval()._1+" y2-"+segment.widthInterval()._2);
@@ -77,11 +77,11 @@ public class SegemntTypeDetector
 
 	private SegmentType matchType(final double m1, final double m3, final double m7, final double w3 , final Pixel pix, final double w2)
 	{
-		if ((m1 > 0.21) && (m1 < 0.3) && (m7 > 0.0109) && (m7 < 0.0235) && (w3 > 1) && (w3 < 2.5) && pix.equals(Pixel.WHITE))
+		if ((m1 > 0.21) && (m1 < 0.35) && (m7 > 0.0109) && (m7 < 0.0276) && (w3 > 1.1) && (w3 < 2.5) && pix.equals(Pixel.WHITE))
 		{
 			return SegmentType.LA;
 		}
-		else if ((m1 > 0.26) && (m1 < 0.415) && (m7 > 0.0085) && (m7 < 0.013) && (w3 > 0.7) && (w3 < 1.45) && pix.equals(Pixel.WHITE)) // 0.92
+		else if ((m1 > 0.26) && (m1 < 0.415) && (m7 > 0.0085) && (m7 < 0.013) && (w3 > 0.6) && (w3 < 1.45) && pix.equals(Pixel.WHITE)) // 0.92
 		{
 			return SegmentType.LR;
 		}
@@ -93,11 +93,11 @@ public class SegemntTypeDetector
 		{
 			return SegmentType.LL;
 		}
-		else if ((m1 > 0.19) && (m1 <= 0.256) && (m7 > 0.004) && (m7 < 0.01) && (w3 > 0.38) && (w3 < 1.2) && pix.equals(Pixel.BLUE))
+		else if ((m1 > 0.19) && (m1 <= 0.256) && (m7 > 0.004) && (m7 < 0.01) && (w3 > 0.275) && (w3 < 1.2) && pix.equals(Pixel.BLUE))
 		{
 			return SegmentType.KPION;
 		}
-		else if ((m1 > 0.256) && (m1 < 0.32) && (m7 > 0.004) && (m7 < 0.01) && (w3 > 0.29) && (w3 < 0.7) && pix.equals(Pixel.BLUE))
+		else if ((m1 > 0.256) && (m1 < 0.33) && (m7 > 0.004) && (m7 < 0.01) && (w3 > 0.29) && (w3 < 0.7) && pix.equals(Pixel.BLUE))
 		{
 			//System.out.println("BLUE: "+pix.getBlue());
 			return SegmentType.KPOZIOM;

@@ -72,6 +72,10 @@ public class Finder {
 				pix = new Pixel(255, 0, 0);
 			} else if (segment.getSegmentType() == SegmentType.LL) {
 				pix = new Pixel(0, 255, 0);
+			} else if (segment.getSegmentType() == SegmentType.LA) {
+				pix = new Pixel(255, 165, 0);
+			} else if (segment.getSegmentType() == SegmentType.KPION) {
+				pix = new Pixel(184, 3, 255);
 			} else {
 				pix = new Pixel(255, 255, 0);
 			}
