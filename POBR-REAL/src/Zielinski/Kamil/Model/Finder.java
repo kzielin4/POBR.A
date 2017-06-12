@@ -41,20 +41,6 @@ public class Finder
 				uknowSeg.add(segment);
 			}
 		}
-		final BufferedImage result2 = new BufferedImage(file.getWidth(), file.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		final int[] array2 = ((DataBufferInt) result2.getRaster().getDataBuffer()).getData();
-		List<Segment> segs1 = new ArrayList<Segment>(segments);
-		System.arraycopy(PixelMatrix.mapPixels(drawBoundingBox2(sourcePixels, segs1)), 0, array2, 0, array2.length);
-		final File output = new File("source2.png");
-		try
-		{
-			ImageIO.write(result2, "png", output);
-			System.out.println("done");
-		}
-		catch (final IOException e)
-		{
-			e.printStackTrace();
-		}
 		segments.removeAll(uknowSeg);
 		List<Segment> segs = new ArrayList<Segment>(segments);
 		pixels = drawBoundingBox(sourcePixels2, groupSegments(segs));
