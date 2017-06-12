@@ -55,9 +55,7 @@ public class Finder
 		{
 			e.printStackTrace();
 		}
-		System.out.println("l1" + segments.size());
 		segments.removeAll(uknowSeg);
-		System.out.println("l2" + segments.size());
 		List<Segment> segs = new ArrayList<Segment>(segments);
 		pixels = drawBoundingBox(sourcePixels2, groupSegments(segs));
 		System.out.println(segments.size());
