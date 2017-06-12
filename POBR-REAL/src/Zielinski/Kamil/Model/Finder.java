@@ -1,10 +1,15 @@
+/*
+ * Klasa g³owna analizuj¹ca wczytany obraz
+ */
 package Zielinski.Kamil.Model;
 
+import java.awt.geom.RectangularShape;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +21,7 @@ import Zielinski.Kamil.Util.Tuple3;
 
 public class Finder
 {
+	// Funkcja g³owna - analizuj¹ca obraz
 	public BufferedImage find(final BufferedImage file)
 	{
 		System.out.println("START");
@@ -24,19 +30,6 @@ public class Finder
 		pixels = new UnsharpMask().putMask(pixels);
 		pixels = new Segmentation().threshold(pixels);
 		pixels = new ErosionMaker().erode(pixels);
-		final BufferedImage result2 = new BufferedImage(file.getWidth(), file.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		final int[] array2 = ((DataBufferInt) result2.getRaster().getDataBuffer()).getData();
-		System.arraycopy(PixelMatrix.mapPixels(pixels), 0, array2, 0, array2.length);
-		// System.out.println(pixels.length + " "+sourcePixels[0].length);
-		final File output = new File("source2.png");
-		try
-		{
-			ImageIO.write(result2, "png", output);
-			System.out.println("done");
-		} catch (final IOException e)
-		{
-			e.printStackTrace();
-		}
 		final Pixel[][] sourcePixels = PixelMatrix.deepCopy(pixels);
 		final Set<Segment> uknowSeg = new HashSet<>();
 		final Set<Segment> segments = new SegmentsCreator().process(pixels);// pomocnicza
@@ -47,25 +40,26 @@ public class Finder
 			{
 				uknowSeg.add(segment);
 			}
-			// System.out.println("Points : x1-" +segment.heightInterval()._1+"
-			// x2-"+segment.heightInterval()._2 +"
-			// y1-"+segment.widthInterval()._1+"
-			// y2-"+segment.widthInterval()._2);
 		}
-		// System.out.println(""+sourcePixels[0].length + "
-		// "+sourcePixels.length);
+		final BufferedImage result2 = new BufferedImage(file.getWidth(), file.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		final int[] array2 = ((DataBufferInt) result2.getRaster().getDataBuffer()).getData();
+		List<Segment> segs1 = new ArrayList<Segment>(segments);
+		System.arraycopy(PixelMatrix.mapPixels(drawBoundingBox2(sourcePixels, segs1)), 0, array2, 0, array2.length);
+		// System.out.println(pixels.length + " "+sourcePixels[0].length);
+		final File output = new File("source2.png");
+		try
+		{
+			ImageIO.write(result2, "png", output);
+			System.out.println("done");
+		} catch (final IOException e)
+		{
+			e.printStackTrace();
+		}
 		System.out.println("l1" + segments.size());
 		segments.removeAll(uknowSeg);
 		System.out.println("l2" + segments.size());
-		// (Segment segment : segments)
-		// {
-		// if(segment.getSegmentType()==(SegmentType.UNKNOWN)){
-		// System.out.println("uknow");
-		// }
-		// }
 		List<Segment> segs = new ArrayList<Segment>(segments);
-		groupSegments(segs);
-		pixels = drawBoundingBox(sourcePixels2, new ArrayList<Segment>(segments));
+		pixels = drawBoundingBox(sourcePixels2 , groupSegments(segs));
 		System.out.println(segments.size());
 		final BufferedImage result = new BufferedImage(file.getWidth(), file.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		final int[] array = ((DataBufferInt) result.getRaster().getDataBuffer()).getData();
@@ -73,7 +67,8 @@ public class Finder
 		return result;
 	}
 
-	private Pixel[][] drawBoundingBox(final Pixel[][] pixels, final List<Segment> segments)
+	// Funkcja rysuj¹ca boundingbox
+	private Pixel[][] drawBoundingBox2(final Pixel[][] pixels, final List<Segment> segments)
 	{
 		for (final Segment segment : segments)
 		{
@@ -85,16 +80,20 @@ public class Finder
 			if (segment.getSegmentType() == SegmentType.LR)
 			{
 				pix = new Pixel(255, 0, 0);
-			} else if (segment.getSegmentType() == SegmentType.LL)
+			}
+			else if (segment.getSegmentType() == SegmentType.LL)
 			{
 				pix = new Pixel(0, 255, 0);
-			} else if (segment.getSegmentType() == SegmentType.LAE)
+			}
+			else if (segment.getSegmentType() == SegmentType.LAE)
 			{
 				pix = new Pixel(255, 165, 0);
-			} else if (segment.getSegmentType() == SegmentType.KPION)
+			}
+			else if (segment.getSegmentType() == SegmentType.KPION)
 			{
 				pix = new Pixel(184, 3, 255);
-			} else
+			}
+			else
 			{
 				pix = new Pixel(255, 255, 0);
 			}
@@ -113,6 +112,35 @@ public class Finder
 		return pixels;
 	}
 
+	private Pixel[][] drawBoundingBox(Pixel[][] pixels, List<List<Segment>> segments)
+	{
+		
+		for (List<Segment> segment : segments)
+		{
+			int minWidth = 99999,maxWidth = 0, minHeight = 999999,maxHeight = 0;
+			for (Segment segment2 : segment)
+			{
+			
+				minWidth = Math.min(minWidth,segment2.widthInterval()._1-2);
+				maxWidth = Math.max(maxWidth,segment2.widthInterval()._2)+2;
+				minHeight = Math.min(minHeight,segment2.heightInterval()._1-2);
+				maxHeight =  Math.max(maxHeight,segment2.heightInterval()._2+2);
+			}
+			Pixel pix = new Pixel(255, 165, 0);
+			for (int i = minHeight-1; i < maxHeight+1; i++)
+			{
+				pixels[i][minWidth] = pix;
+				pixels[i][maxWidth] = pix;
+			}
+			for (int i = minWidth-1; i < maxWidth+1; i++)
+			{
+				pixels[minHeight][i] = pix;
+				pixels[maxHeight][i] = pix;
+			}
+		}
+		return pixels;
+	}
+
 	private List<List<Segment>> groupSegments(List<Segment> segments)
 	{
 		List<Segment> verticalLine = extractSegmentWithCenter(segments, SegmentType.KPION);
@@ -120,83 +148,133 @@ public class Finder
 		List<Segment> lettersL = extractSegmentWithCenter(segments, SegmentType.LL);
 		List<Segment> lettersAE = extractSegmentWithCenter(segments, SegmentType.LAE);
 		List<Segment> lettersR = extractSegmentWithCenter(segments, SegmentType.LR);
-		// List<List<Segment> real = new ArrayList<List<Segment>>();
+		List<List<Segment>> sREAL = new ArrayList<List<Segment>>();
 		for (Segment rLetter : lettersR)
 		{
-			int rCenterWidtht = rLetter.widthInterval()._2 - rLetter.widthInterval()._1;
-			int rCenterHeight = rLetter.heightInterval()._1+(rLetter.heightInterval()._2 - rLetter.heightInterval()._1);
-			Set<Segment> tmpReal = new HashSet<Segment>();
+			int rd = (rLetter.widthInterval()._2 - rLetter.widthInterval()._1) / 3;
+			int rWidtht = (rLetter.widthInterval()._2 - rLetter.widthInterval()._1);
+			int rHeight = (rLetter.heightInterval()._2 - rLetter.heightInterval()._1);
+			Rectangle recR = new Rectangle(rLetter.widthInterval()._1, rLetter.heightInterval()._1, rWidtht, rHeight);
+			List<Segment> tmpReal = new ArrayList<Segment>();
 			tmpReal.add(rLetter);
 			boolean r = false;
 			for (Segment eLetter : lettersAE)
 			{
-				int eCenterWidtht = eLetter.widthInterval()._2 - eLetter.widthInterval()._1;
-				int eCenterHeight = eLetter.heightInterval()._1+(eLetter.heightInterval()._2 - eLetter.heightInterval()._1);
-				if (Math.abs(rCenterHeight - eCenterHeight) < 4 && Math.abs(eLetter.widthInterval()._1 - rLetter.widthInterval()._2) < 4)
+				int eWidtht = eLetter.widthInterval()._2 - eLetter.widthInterval()._1;
+				int eHeight = eLetter.heightInterval()._2 - eLetter.heightInterval()._1;
+				Rectangle recE = new Rectangle(eLetter.widthInterval()._1, eLetter.heightInterval()._1, eWidtht,
+						eHeight);
+				if (recE.overlaps(recR) && rLetter.equals(tmpReal.get(0)))
 				{
-					tmpReal.add(eLetter);
-					r=true;
+					if (tmpReal.size() == 1)
+						tmpReal.add(eLetter);
+					r = true;
 				}
 				boolean re = false;
 				for (Segment aLetter : lettersAE)
 				{
-					if(r == false)
+					if (r == false)
 					{
 						break;
 					}
-					int aCenterWidtht = aLetter.widthInterval()._2 - aLetter.widthInterval()._1;
-					int aCenterHeight = aLetter.heightInterval()._1+(aLetter.heightInterval()._2 - aLetter.heightInterval()._1);;
-					if (aCenterHeight != eCenterHeight && Math.abs(aCenterHeight - eCenterHeight) < 6 && Math.abs(aLetter.widthInterval()._1 - eLetter.widthInterval()._2) < 4)
+					int aWidtht = (aLetter.widthInterval()._2 - aLetter.widthInterval()._1);
+					int aHeight = (aLetter.heightInterval()._2 - aLetter.heightInterval()._1);
+					Rectangle recA = new Rectangle(aLetter.widthInterval()._1, aLetter.heightInterval()._1, aWidtht,
+							aHeight);
+					if (!aLetter.equals(eLetter) && recA.overlaps(recE) && eLetter.equals(tmpReal.get(1)))
 					{
-						tmpReal.add(aLetter);
-						re=true;
+						System.out.println("wbilem");
+						if (tmpReal.size() == 2)
+						{
+							tmpReal.add(aLetter);
+							System.out.println("xA: " + aLetter.widthInterval()._1.intValue() + " yA"
+									+ aLetter.heightInterval()._1.intValue() + " wid: " + aWidtht + " he" + aHeight);
+							System.out.println("xE: " + eLetter.widthInterval()._1.intValue() + " yA"
+									+ eLetter.heightInterval()._1.intValue() + " wid: " + eWidtht + " he" + eHeight);
+						}
+						re = true;
 					}
 					boolean rea = false;
 					for (Segment lLetter : lettersL)
 					{
-						if(re == false)
+						if (re == false)
 						{
-							if (tmpReal.size()==2)
-							{
-								System.out.println("lol");
-							}
 							break;
 						}
-						int lCenterWidtht = lLetter.widthInterval()._2 - lLetter.widthInterval()._1;
-						int lCenterHeight = lLetter.heightInterval()._1+(lLetter.heightInterval()._2 - lLetter.heightInterval()._1);
-						if (Math.abs(lCenterHeight - aCenterHeight) < 5 && Math.abs(lLetter.widthInterval()._1 - aLetter.widthInterval()._2) < 4)
+						int lWidtht = (lLetter.widthInterval()._2 - lLetter.widthInterval()._1);
+						int lHeight = (lLetter.heightInterval()._2 - lLetter.heightInterval()._1);
+						Rectangle recL = new Rectangle(lLetter.widthInterval()._1, lLetter.heightInterval()._1, lWidtht,
+								lHeight);
+						if (recL.overlaps(recA) && aLetter.equals(tmpReal.get(2)))
 						{
-							tmpReal.add(lLetter);
-							rea=true;
+							if (tmpReal.size() == 3)
+							{
+								tmpReal.add(lLetter);
+								System.out.println("xA: " + aLetter.widthInterval()._1.intValue() + " yA"
+										+ aLetter.heightInterval()._1.intValue() + " wid: " + aWidtht + " he"
+										+ aHeight);
+								System.out.println("xL: " + lLetter.widthInterval()._1.intValue() + " yA"
+										+ lLetter.heightInterval()._1.intValue() + " wid: " + lWidtht + " he"
+										+ lHeight);
+							}
+							rea = true;
 						}
 						boolean real = false;
 						for (Segment verLine : verticalLine)
 						{
-							if(rea == false)
+							if (rea == false)
 							{
 								break;
 							}
-							int vCenterHeight = verLine.widthInterval()._1+(verLine.heightInterval()._2 - verLine.heightInterval()._1);
-							if (Math.abs(aCenterHeight - vCenterHeight) < 5 && Math.abs(verLine.widthInterval()._1 - lLetter.widthInterval()._2) < 4)
+							int vWidth = (verLine.widthInterval()._2 - verLine.widthInterval()._1);
+							int vHeight = (verLine.heightInterval()._2 - verLine.heightInterval()._1);
+							Rectangle recV = new Rectangle(verLine.widthInterval()._1, verLine.heightInterval()._1,
+									vWidth, vHeight);
+							if (recV.overlaps(recL) && lLetter.equals(tmpReal.get(3)))
 							{
-								//tmpReal.add(verLine);
-								real=true;
+								if (tmpReal.size() == 4)
+								{
+									tmpReal.add(verLine);
+								}
+								real = true;
 							}
 							boolean real1 = false;
 							for (Segment horLine : horizontalLine)
 							{
-								int hCenterWidtht = horLine.widthInterval()._2 - horLine.widthInterval()._1;
-								int hCenterHeight = horLine.heightInterval()._2 - horLine.heightInterval()._1;
+								if (real == false)
+								{
+									break;
+								}
+								int hWidth = (horLine.widthInterval()._2 - horLine.widthInterval()._1);
+								int hHeight = (horLine.heightInterval()._2 - horLine.heightInterval()._1);
+								Rectangle recH = new Rectangle(horLine.widthInterval()._1, horLine.heightInterval()._1,
+										hWidth, hHeight);
+
+								if (recH.overlaps(recV) && verLine.equals(tmpReal.get(4)))
+								{
+									if (tmpReal.size() == 5)
+									{
+										tmpReal.add(horLine);
+									}
+									real = true;
+								}
 							}
 						}
 					}
 				}
+
+			}
+			if(tmpReal.size()==6)
+			{
+				sREAL.add(tmpReal);
 			}
 			System.out.println("Size:" + tmpReal.size());
+
 		}
-		return null;
+		return sREAL;
 	}
 
+	// Funkcja zwraca listê segementów o wskazanym typie
 	private List<Segment> extractSegmentWithCenter(List<Segment> segments, SegmentType segType)
 	{
 		List<Segment> listS = new ArrayList<Segment>();
@@ -207,17 +285,8 @@ public class Finder
 				listS.add(segment);
 			}
 		}
+		System.out.println("Typ: " + segType.name() + " Ilosc: " + listS.size());
 		return listS;
 	}
-
-	/*
-	 * private List<Segment> concatLettersAE (List<Segment> segments) {
-	 * Set<Segment> seg = new HashSet<Segment>(); for (int i = 0; i <
-	 * segments.size(); i++) { for (int j = i; j < segments.size(); j++) { if
-	 * (segments.get(j).widthInterval() - segments.get(i).widthInterval()<5) {
-	 * seg.add(new Segment(SegmentType., segmentPoints)) }
-	 * 
-	 * } } return null; }
-	 */
 
 }

@@ -1,21 +1,19 @@
 package Zielinski.Kamil.Model;
 
+/*
+ * Klasa odpowiedzialna za wykrywanie typu segmentu
+ */
 import Zielinski.Kamil.Util.Tuple;
 import Zielinski.Kamil.Util.Tuple3;
 
 public class SegemntTypeDetector
 {
-	// Zwraca typ segmentu
+	// Zwraca typ wskazanego segmentu
 	SegmentType detectType(final Segment segment, final Pixel[][] orpixels)
 	{
 		final Pixel[][] pixels = extractSegmentWithBox(segment);
 		final Pixel pix = orpixels[segment.getPoints().get(1).x][segment.getPoints().get(1).y];
-		// System.out.println("rgb"+ pix.getBlue()+"
-		// y:"+segment.getPoints().get(1).x +"
-		// x:"+segment.getPoints().get(1).y);
 		final Tuple3<Double, Double, Double> moments = new MomentsCounter().getSegmentMoments(pixels);
-		// System.out.println("M1: " + moments._1 + " M3: " + moments._2 + "M7:
-		// " + moments._3);
 		final int segWidth = segment.widthInterval()._2 - segment.widthInterval()._1;
 		final int segHeigh = segment.heightInterval()._2 - segment.heightInterval()._1;
 		final double shapeFactor = new MainowskiCounter().malinowskiej(pixels);
@@ -24,39 +22,26 @@ public class SegemntTypeDetector
 				segHeigh);
 		for (final Point point : segment.getPoints())
 		{
-			if ((point.x == 91) && (point.y == 451))
-			{
-				System.out.println("-----------------------------");
-				System.out.println("Points : x1-" + segment.heightInterval()._1 + " x2-" + segment.heightInterval()._2
-						+ " y1-" + segment.widthInterval()._1 + " y2-" + segment.widthInterval()._2);
-				System.out.println("M1: " + moments._1);
-				System.out.println("M7: " + moments._3);
-				System.out.println("w3: " + shapeFactor);
-				System.out.println("w9: " + shapeFactor2);
-				System.out.println("TYP: " + type.name());
-				System.out.println("-----------------------------");
-				System.out.println(segHeigh / segWidth);
-			}
+			/*
+			 * if ((point.x == 188) && (point.y == 478)) {
+			 * System.out.println("-----------------------------");
+			 * System.out.println("Points : x1-" + segment.heightInterval()._1 +
+			 * " x2-" + segment.heightInterval()._2 + " y1-" +
+			 * segment.widthInterval()._1 + " y2-" +
+			 * segment.widthInterval()._2); System.out.println("M1: " +
+			 * moments._1); System.out.println("M7: " + moments._3);
+			 * System.out.println("w3: " + shapeFactor);
+			 * System.out.println("w9: " + shapeFactor2);
+			 * System.out.println("TYP: " + type.name());
+			 * System.out.println("-----------------------------");
+			 * System.out.println(segHeigh / segWidth); }
+			 */
 		}
-		// System.out.println("w3: "+shapeFactor);
-		/*
-		 * if (!type.equals(SegmentType.UNKNOWN)) {
-		 * System.out.println("Points : x1-"
-		 * +segment.heightInterval()._1+" x2-"+segment.heightInterval()._2
-		 * +" y1-"+segment.widthInterval()._1+" y2-"+segment.widthInterval()._2)
-		 * ; System.out.println("M1: " + moments._1 + " M3: " + moments._2 +
-		 * "M7: " + moments._3); System.out.println("w3: " + shapeFactor);
-		 * System.out.println("w9: " + shapeFactor2); System.out.println("TYP: "
-		 * + type.toString());
-		 * 
-		 * }
-		 */
-
 		return type;
-		// return SegmentType.UNKNOWN;
 	}
 
-	// zwraca tablice pixeli dla segmentu
+	// Funkcja zwraca ograniczon¹ dwuwymiarow¹ tablice pixeli dla danego
+	// segmentu
 	private Pixel[][] extractSegmentWithBox(final Segment segment)
 	{
 		final Tuple<Integer, Integer> widthInterval = segment.widthInterval();
@@ -83,36 +68,50 @@ public class SegemntTypeDetector
 		return segmentImage;
 	}
 
+	// Funkcja wyznaczaj¹ca typ segmentu na podstawie wyliczonych parametrów
 	private SegmentType matchType(final double m1, final double m3, final double m7, final double w3, final Pixel pix,
 			final double w2, final int width, final int heigh)
 	{
-		if ((m1 > 0.21) && (m1 < 0.39) && (m7 > 0.0109) && (m7 < 0.034) && (w3 > 1.1) && (w3 < 2.5)
-				&& pix.equals(Pixel.WHITE) && ((heigh / width) < 1.1))
+		double p1;
+		if (width == 0 || heigh == 0)
+		{
+			return SegmentType.UNKNOWN;
+		}
+		if (width > heigh)
+		{
+			p1 = (double) width / heigh;
+		}
+		else
+		{
+			p1 = (double) heigh / width;
+		}
+		if ((m1 > 0.21) && (m1 < 0.42) && (m7 > 0.0109) && (m7 < 0.038) && (w3 > 1.1) && (w3 < 2.5) // W3
+																									// 1.1
+				&& pix.equals(Pixel.WHITE) && p1 < 1.45)
 		{
 			return SegmentType.LAE;
-		} else if ((m1 > 0.26) && (m1 < 0.415) && (m7 > 0.0085) && (m7 < 0.013) && (w3 > 0.6) && (w3 < 1.45)
+		}
+		else if ((m1 > 0.26) && (m1 < 0.415) && (m7 > 0.0085) && (m7 < 0.013) && (w3 > 0.6) && (w3 < 1.45)
 				&& pix.equals(Pixel.WHITE)) // 0.92
 		{
 			return SegmentType.LR;
 		}
-		/*
-		 * else if (m1 > 0.17 && m1 < 0.33 && m7 > 0.003 && m7 < 0.0165 && w3 >=
-		 * 1.1 && w3 < 2 && pix.equals(Pixel.WHITE)) { return SegmentType.LE; }
-		 */
 		else if ((m1 > 0.335) && (m1 < 0.52) && (m7 > 0.005) && (m7 < 0.095) && (w3 > 0.5) && (w3 < 1.35)
-				&& pix.equals(Pixel.WHITE) && ((heigh / width) > 1.1))
+				&& pix.equals(Pixel.WHITE) && ((width / heigh) >= 2 || (heigh / width) >= 2))
 		{
 			return SegmentType.LL;
-		} else if ((m1 > 0.25) && (m1 < 0.47) && (m7 > 0.004) && (m7 < 0.01) && (w3 > 0.29) && (w3 < 0.7)
-				&& pix.equals(Pixel.BLUE) && (width > heigh))
+		}
+		else if ((m1 > 0.25) && (m1 < 0.47) && (m7 > 0.004) && (m7 < 0.01) && (w3 > 0.29) && (w3 < 0.7)
+				&& pix.equals(Pixel.BLUE) && ((width / heigh) >= 2 || (heigh / width) >= 2))
 		{
-			// System.out.println("BLUE: "+pix.getBlue());
 			return SegmentType.KPOZIOM;
-		} else if ((m1 > 0.19) && (m1 <= 0.27) && (m7 > 0.004) && (m7 < 0.01) && (w3 > 0.12) && (w3 < 1.2)
+		}
+		else if ((m1 > 0.19) && (m1 <= 0.29) && (m7 > 0.004) && (m7 < 0.01) && (w3 > 0.12) && (w3 < 1.2)
 				&& pix.equals(Pixel.BLUE))
 		{
 			return SegmentType.KPION;
-		} else
+		}
+		else
 		{
 			return SegmentType.UNKNOWN;
 		}

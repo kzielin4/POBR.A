@@ -1,15 +1,18 @@
 package Zielinski.Kamil.Model;
-
+/*
+ * Klasa odpowiedzialna za obliczenia momentów geometrycznych
+ */
 import Zielinski.Kamil.Util.Tuple;
 import Zielinski.Kamil.Util.Tuple3;
 
 public class MomentsCounter
 {
+	//Funkcja zwraca 1,3 i 7 moment geometryczny
 	Tuple3<Double, Double, Double> getSegmentMoments(Pixel[][] pixels)
 	{
 		return Tuple3.from(M1(pixels), M3(pixels), M7(pixels));
 	}
-
+   
 	private double m(int p, int q, Pixel[][] pixels)
 	{
 		double sum = 0;

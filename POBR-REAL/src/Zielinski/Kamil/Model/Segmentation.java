@@ -1,8 +1,15 @@
+/*
+ * Klasa odpowiedzialna za segmentacje przez progowanie obrazu 
+ * Czarny - t³o
+ * Bia³y - literki R E A L
+ * Niebieski - kreska pozioma i pionowa
+ * 
+ */
 package Zielinski.Kamil.Model;
 
 public class Segmentation
 {
-	static int MINBLUE = 68; //68
+	static int MINBLUE = 58; //68
 	static int MINRED = 68; //87
 	static int MAXRG = 180;
 	static int MAXRB = 150;

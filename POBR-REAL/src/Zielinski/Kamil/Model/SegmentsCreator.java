@@ -23,7 +23,7 @@ public class SegmentsCreator
 				{
 					final Segment seg = extractSegment(pixels, i, j);
 					if ((seg.getPoints().size() > 20) && ((seg.getPoints().size() < (0.5 * size))
-							&& ((seg.widthInterval()._2 - seg.widthInterval()._1) < (0.25 * pixels[0].length))))
+							&& ((seg.widthInterval()._2 - seg.widthInterval()._1) < (0.5 * pixels[0].length))))
 					{
 						segments.add(seg);
 					}
@@ -44,7 +44,6 @@ public class SegmentsCreator
 		Boolean isBlue = false;
 		if ((comparator.getBlue() == 255) && (comparator.getRed() == 0))
 		{
-			// System.out.println("nieb");
 			isBlue = true;
 		}
 		stack.push(new Point(height, width));

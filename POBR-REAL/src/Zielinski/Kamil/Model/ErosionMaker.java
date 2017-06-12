@@ -1,17 +1,19 @@
 package Zielinski.Kamil.Model;
 
+/*
+ * Klasa odpowiedzialna za erozjê
+ */
 public class ErosionMaker
 {
 	private static final boolean[][] DEFAULT_KERNEL = new boolean[][]
 	{
+
 			{ false, true, true },
 			{ false, false, true },
-			{ true, true, true } };
+			{ true, true, true } };	
 
 	Pixel[][] erode(final Pixel[][] source)
 	{
-		// System.out.println("l1: "+ (DEFAULT_KERNEL.length / 2)+" l2:
-		// "+(source[0].length - DEFAULT_KERNEL.length));
 		return erode(source, DEFAULT_KERNEL);
 	}
 
