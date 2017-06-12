@@ -1,3 +1,8 @@
+/*
+ * Klasa przetwarzaj¹ca BufferedImage do tablicy Pixeli 2D
+ * PixelMatrix umo¿lwia tworzenie g³êbokiej kopi tablicy Pixeli 2D
+ * 
+ */
 package Zielinski.Kamil.Model;
 
 import java.awt.image.BufferedImage;
@@ -9,14 +14,16 @@ public class PixelMatrix
 	{
 	}
 
-	static Pixel[][] mapImage(BufferedImage image)
+	//Funkcja na podstawie obrazu zwraca tablice Pixeli 2D
+	public static Pixel[][] mapImage(BufferedImage image)
 	{
 		int width = image.getWidth();
 		int height = image.getHeight();
 		int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
 		return mapToPixelsMatrix(width, height, pixels);
 	}
-
+	
+    //Funkcja tworzy tablice pixeli 2D
 	private static Pixel[][] mapToPixelsMatrix(int width, int height, int[] pixels)
 	{
 		Pixel[][] pixelMatrix = new Pixel[height][width];
@@ -37,7 +44,8 @@ public class PixelMatrix
 		}
 		return pixelMatrix;
 	}
-
+	
+	//Funkcja zwraca tablice z wartoœciami jasnoœci RGB potrzebn¹ do utworzenia obrazu wyjœciowego
 	static int[] mapPixels(Pixel[][] pixels)
 	{
 		int[] result = new int[pixels.length * pixels[0].length];
@@ -57,6 +65,7 @@ public class PixelMatrix
 		return result;
 	}
 
+	//Funkcja tworzy g³ebok¹ kopie tablicy Pixeli 2D
 	static Pixel[][] deepCopy(Pixel[][] pixels)
 	{
 		int width = pixels[0].length;

@@ -9,13 +9,15 @@ package Zielinski.Kamil.Model;
 
 public class Segmentation
 {
-	static int MINBLUE = 58; //68
-	static int MINRED = 68; //87
+	// Parametry
+	static int MINBLUE = 58; // 68
+	static int MINRED = 68; // 87
 	static int MAXRG = 180;
 	static int MAXRB = 150;
 	static int MAXBG = 140;
 	static int MAXBR = 140;
 
+	// Funkcja segmentujaca obraz zapisany w tablixy 2D
 	Pixel[][] threshold(final Pixel[][] source)
 	{
 		for (int i = 0; i < source.length; i++)
@@ -23,11 +25,18 @@ public class Segmentation
 			for (int j = 0; j < source[0].length; j++)
 			{
 				final Pixel pixel = source[i][j];
-				if (((pixel.getBlue()>pixel.getRed()) && (pixel.getBlue()>pixel.getGreen()) && (pixel.getBlue() > MINBLUE)  && (pixel.getGreen()<MAXBG) && (pixel.getRed()<MAXBR) )||  ((pixel.getRed() >= MINRED)  && (pixel.getBlue()<pixel.getRed()) && (pixel.getRed()>pixel.getGreen()) && (pixel.getGreen()<MAXRG) && (pixel.getBlue()<MAXRB) ) )//130 130 150 172
+				if (((pixel.getBlue() > pixel.getRed()) && (pixel.getBlue() > pixel.getGreen())
+						&& (pixel.getBlue() > MINBLUE) && (pixel.getGreen() < MAXBG) && (pixel.getRed() < MAXBR))
+						|| ((pixel.getRed() >= MINRED) && (pixel.getBlue() < pixel.getRed())
+								&& (pixel.getRed() > pixel.getGreen()) && (pixel.getGreen() < MAXRG)
+								&& (pixel.getBlue() < MAXRB)))// 130 130 150 172
 				{
-					if(pixel.getBlue()> pixel.getRed()) {
+					if (pixel.getBlue() > pixel.getRed())
+					{
 						source[i][j] = Pixel.BLUE;
-					} else {
+					}
+					else
+					{
 						source[i][j] = Pixel.WHITE;
 					}
 				}

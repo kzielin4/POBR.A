@@ -1,7 +1,7 @@
 package Zielinski.Kamil.Model;
 
 /*
- * Klasa odpowiedzialna za erozjê
+ * Klasa odpowiedzialna za erozjê obrazu
  */
 public class ErosionMaker
 {
@@ -10,17 +10,19 @@ public class ErosionMaker
 
 			{ false, true, true },
 			{ false, false, true },
-			{ true, true, true } };	
+			{ true, true, true } };
 
+	// Funkcja wywo³uj¹ca proces erozji
 	Pixel[][] erode(final Pixel[][] source)
 	{
 		return erode(source, DEFAULT_KERNEL);
 	}
 
+	// Funkcja na podstawie j¹dra erozji obciana brzegowe pixele (s¹siaduj¹ce z
+	// t³em)
 	private Pixel[][] erode(final Pixel[][] source, final boolean[][] kernel)
 	{
 		final Pixel[][] result = PixelMatrix.deepCopy(source);
-		// przechodmy po pixelach
 		for (int i = kernel.length / 2; i < (source.length - (kernel.length / 2)); i++)
 		{
 			for (int j = kernel.length / 2; j < (source[0].length - (kernel.length / 2)); j++)

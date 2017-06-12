@@ -1,5 +1,7 @@
 package Zielinski.Kamil.Model;
-
+/*
+ * Klasa reprezntuj¹ca pojedyñczy segment
+ */
 import java.util.List;
 
 import Zielinski.Kamil.Util.Tuple;
@@ -8,7 +10,9 @@ public class Segment
 {
 	private SegmentType segmentType;
 	private List<Point> points;
+	//Pole przechoduje skrajne wspó³rzêdne szerokoœci segmentu
 	private Tuple<Integer, Integer> widthInterval;
+	//Pole przechoduje skrajne wspó³rzêdne wysokoœci segmentu
 	private Tuple<Integer, Integer> heightInterval;
 
 	public Segment(SegmentType segmentType, List<Point> points, Tuple<Integer, Integer> widthInterval,

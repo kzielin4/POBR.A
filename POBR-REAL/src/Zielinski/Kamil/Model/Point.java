@@ -1,3 +1,6 @@
+/*
+ * Klasa reprezentuj¹ca strukture punktu
+ */
 package Zielinski.Kamil.Model;
 
 public class Point

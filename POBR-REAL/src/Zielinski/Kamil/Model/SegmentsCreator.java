@@ -1,3 +1,6 @@
+/*
+ * Klasa odpowiedzialna za tworzenie zbioru wszytskich segmentów
+ */
 package Zielinski.Kamil.Model;
 
 import java.util.ArrayList;
@@ -9,6 +12,7 @@ import java.util.Set;
 
 public class SegmentsCreator
 {
+	// Funkcja zwracaj¹ca listê wszystkich wyznaczonych segmentów
 	Set<Segment> process(final Pixel[][] pixels)
 	{
 		final Set<Segment> segments = new HashSet<>();
@@ -34,6 +38,7 @@ public class SegmentsCreator
 		return segments;
 	}
 
+	// Funkcja tworz¹ca segment obszaru w którym znajduje siê wskazany punkt
 	private Segment extractSegment(final Pixel[][] pixels, final int height, final int width)
 	{
 		final int imageHeight = pixels.length;

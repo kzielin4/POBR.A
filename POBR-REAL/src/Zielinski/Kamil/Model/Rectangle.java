@@ -1,5 +1,8 @@
 package Zielinski.Kamil.Model;
-
+/*
+ * Klasa zawieraj¹ca strukturê geometryczno-analityczn¹ segmentu
+ * Klasa s³u¿y do sprawdzenia intersekcji pomiêdzy dwoma segmentami
+ */
 import java.awt.geom.Rectangle2D;
 
 public class Rectangle
@@ -20,7 +23,8 @@ public class Rectangle
 		this.centerX = (2 * x + width) / 2;
 		this.centerY = (2 * y + height) / 2;
 	}
-
+	
+	//Funkcja sprawda czy dwa prostok¹ty s¹ w swoim s¹siedztwie
 	public boolean overlaps(Rectangle r)
 	{
 		int paramW, paramH;

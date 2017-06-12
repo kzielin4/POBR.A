@@ -1,5 +1,7 @@
 package Zielinski.Kamil.Model;
-
+/*
+ * Klasa wczytujaca obraz do struktury BufferedImage
+ */
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

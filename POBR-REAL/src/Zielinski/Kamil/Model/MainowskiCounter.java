@@ -1,22 +1,29 @@
+/*
+ * Klasa odpowiedzialna za wyznaczania wspó³czyników kszta³u wybranego segmentu
+ */
 package Zielinski.Kamil.Model;
 
 public class MainowskiCounter
 {
+	// Funkcja zwraca W3
 	double malinowskiej(Pixel[][] pixels)
 	{
 		return perimeter(pixels) / (2 * Math.sqrt(Math.PI * square(pixels))) - 1;
 	}
 
+	// Funkcja zwraca W9
 	double W9(Pixel[][] pixels)
 	{
 		return (2 * Math.sqrt(Math.PI * square(pixels))) / perimeter(pixels);
 	}
 
+	// Funkcja zwraca W2
 	double W2(Pixel[][] pixels)
 	{
-		return perimeter(pixels)/Math.PI;
+		return perimeter(pixels) / Math.PI;
 	}
-
+    
+	//Funkcja zwraca wartoœæ pola segmentu
 	private int square(Pixel[][] pixels)
 	{
 		int square = 0;
@@ -33,6 +40,7 @@ public class MainowskiCounter
 		return square;
 	}
 
+	//Funkcja zwraca wartoœæ obwodu segmentu
 	private int perimeter(Pixel[][] pixels)
 	{
 		int perimeter = 0;

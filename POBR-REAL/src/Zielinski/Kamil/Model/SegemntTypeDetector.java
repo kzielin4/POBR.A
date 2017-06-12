@@ -1,8 +1,8 @@
-package Zielinski.Kamil.Model;
-
 /*
  * Klasa odpowiedzialna za wykrywanie typu segmentu
  */
+package Zielinski.Kamil.Model;
+
 import Zielinski.Kamil.Util.Tuple;
 import Zielinski.Kamil.Util.Tuple3;
 
@@ -20,28 +20,26 @@ public class SegemntTypeDetector
 		final double shapeFactor2 = new MainowskiCounter().W2(pixels);
 		final SegmentType type = matchType(moments._1, moments._2, moments._3, shapeFactor, pix, shapeFactor2, segWidth,
 				segHeigh);
-		for (final Point point : segment.getPoints())
-		{
-			/*
-			 * if ((point.x == 188) && (point.y == 478)) {
-			 * System.out.println("-----------------------------");
-			 * System.out.println("Points : x1-" + segment.heightInterval()._1 +
-			 * " x2-" + segment.heightInterval()._2 + " y1-" +
-			 * segment.widthInterval()._1 + " y2-" +
-			 * segment.widthInterval()._2); System.out.println("M1: " +
-			 * moments._1); System.out.println("M7: " + moments._3);
-			 * System.out.println("w3: " + shapeFactor);
-			 * System.out.println("w9: " + shapeFactor2);
-			 * System.out.println("TYP: " + type.name());
-			 * System.out.println("-----------------------------");
-			 * System.out.println(segHeigh / segWidth); }
-			 */
-		}
+		/*
+		 * for (final Point point : segment.getPoints()) {
+		 * 
+		 * if ((point.x == 188) && (point.y == 478)) {
+		 * System.out.println("-----------------------------");
+		 * System.out.println("Points : x1-" + segment.heightInterval()._1 +
+		 * " x2-" + segment.heightInterval()._2 + " y1-" +
+		 * segment.widthInterval()._1 + " y2-" + segment.widthInterval()._2);
+		 * System.out.println("M1: " + moments._1); System.out.println("M7: " +
+		 * moments._3); System.out.println("w3: " + shapeFactor);
+		 * System.out.println("w9: " + shapeFactor2); System.out.println("TYP: "
+		 * + type.name()); System.out.println("-----------------------------");
+		 * System.out.println(segHeigh / segWidth); }
+		 * 
+		 * }
+		 */
 		return type;
 	}
 
-	// Funkcja zwraca ograniczon¹ dwuwymiarow¹ tablice pixeli dla danego
-	// segmentu
+	// Funkcja zwraca ograniczon¹ dwuwymiarow¹ tablice pixeli dla danego segmentu
 	private Pixel[][] extractSegmentWithBox(final Segment segment)
 	{
 		final Tuple<Integer, Integer> widthInterval = segment.widthInterval();
@@ -51,10 +49,12 @@ public class SegemntTypeDetector
 		final int maxHeight = heightInterval._2;
 		final int minHeight = heightInterval._1;
 		final Pixel[][] segmentImage = segmentPixels(maxHeight - minHeight, maxWidth - minWidth);
+		//wype³nianie pixeli bia³ych w utworzonej tablicy
 		segment.getPoints().forEach(p -> segmentImage[(p.x - minHeight) + 3][(p.y - minWidth) + 3] = Pixel.WHITE);
 		return segmentImage;
 	}
 
+   //Funkcja tworz¹ca tablice Pixeli 2D wype³nion¹ czarnymi pixelami
 	private Pixel[][] segmentPixels(final int heightDiff, final int widthDiff)
 	{
 		final Pixel[][] segmentImage = new Pixel[heightDiff + 5][widthDiff + 5];

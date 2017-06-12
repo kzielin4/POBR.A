@@ -1,9 +1,13 @@
 package Zielinski.Kamil.Model;
-
+/*
+ * Klasa odpowiedzialna za wyostrzenie obrazu
+ * Nak³ada na obraz unsharpMask uzyskan¹ na podstawie
+ * algorytmu romycia Gaussa
+ */
 public class UnsharpMask
 {
 	private static final float[][] KERNEL;
-
+	// Funkcja tworz¹ca filtr dolnoprzepustowy do rozmycia Gaussa
 	static
 	{
 		float sigma = 1f;
@@ -15,7 +19,9 @@ public class UnsharpMask
 		{
 			for (int j = 0; j < size; j++)
 			{
-				KERNEL[i][j] = (float) (Math.exp(-0.5 * Math.pow((i - mean) / sigma, 2) + Math.pow((j - mean) / sigma, 2)) / 2 * Math.PI* sigma * sigma);
+				KERNEL[i][j] = (float) (Math
+						.exp(-0.5 * Math.pow((i - mean) / sigma, 2) + Math.pow((j - mean) / sigma, 2)) / 2 * Math.PI
+						* sigma * sigma);
 				sum += KERNEL[i][j];
 			}
 		}
@@ -28,6 +34,8 @@ public class UnsharpMask
 		}
 	}
 
+	// Funkcja nak³adaj¹ca UnsharpMask na podstawie filtru dolnoprzepustowego
+	// (rozmycia obrazu)
 	Pixel[][] putMask(Pixel[][] pixels)
 	{
 		Pixel[][] blur = new GaussianBlur(KERNEL).blur(pixels);

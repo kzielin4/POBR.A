@@ -45,13 +45,13 @@ public class Finder
 		final int[] array2 = ((DataBufferInt) result2.getRaster().getDataBuffer()).getData();
 		List<Segment> segs1 = new ArrayList<Segment>(segments);
 		System.arraycopy(PixelMatrix.mapPixels(drawBoundingBox2(sourcePixels, segs1)), 0, array2, 0, array2.length);
-		// System.out.println(pixels.length + " "+sourcePixels[0].length);
 		final File output = new File("source2.png");
 		try
 		{
 			ImageIO.write(result2, "png", output);
 			System.out.println("done");
-		} catch (final IOException e)
+		}
+		catch (final IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -59,7 +59,7 @@ public class Finder
 		segments.removeAll(uknowSeg);
 		System.out.println("l2" + segments.size());
 		List<Segment> segs = new ArrayList<Segment>(segments);
-		pixels = drawBoundingBox(sourcePixels2 , groupSegments(segs));
+		pixels = drawBoundingBox(sourcePixels2, groupSegments(segs));
 		System.out.println(segments.size());
 		final BufferedImage result = new BufferedImage(file.getWidth(), file.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		final int[] array = ((DataBufferInt) result.getRaster().getDataBuffer()).getData();
@@ -67,7 +67,7 @@ public class Finder
 		return result;
 	}
 
-	// Funkcja rysuj¹ca boundingbox
+	// Funkcja rysuj¹ca boundingbox dla 1 segementu
 	private Pixel[][] drawBoundingBox2(final Pixel[][] pixels, final List<Segment> segments)
 	{
 		for (final Segment segment : segments)
@@ -112,27 +112,28 @@ public class Finder
 		return pixels;
 	}
 
+	// Funkcja rysuj¹ca boundingbox dla grupy segemntów
 	private Pixel[][] drawBoundingBox(Pixel[][] pixels, List<List<Segment>> segments)
 	{
-		
+
 		for (List<Segment> segment : segments)
 		{
-			int minWidth = 99999,maxWidth = 0, minHeight = 999999,maxHeight = 0;
+			int minWidth = 99999, maxWidth = 0, minHeight = 999999, maxHeight = 0;
 			for (Segment segment2 : segment)
 			{
-			
-				minWidth = Math.min(minWidth,segment2.widthInterval()._1-2);
-				maxWidth = Math.max(maxWidth,segment2.widthInterval()._2)+2;
-				minHeight = Math.min(minHeight,segment2.heightInterval()._1-2);
-				maxHeight =  Math.max(maxHeight,segment2.heightInterval()._2+2);
+
+				minWidth = Math.min(minWidth, segment2.widthInterval()._1 - 2);
+				maxWidth = Math.max(maxWidth, segment2.widthInterval()._2) + 2;
+				minHeight = Math.min(minHeight, segment2.heightInterval()._1 - 2);
+				maxHeight = Math.max(maxHeight, segment2.heightInterval()._2 + 2);
 			}
 			Pixel pix = new Pixel(255, 165, 0);
-			for (int i = minHeight-1; i < maxHeight+1; i++)
+			for (int i = minHeight - 1; i < maxHeight + 1; i++)
 			{
 				pixels[i][minWidth] = pix;
 				pixels[i][maxWidth] = pix;
 			}
-			for (int i = minWidth-1; i < maxWidth+1; i++)
+			for (int i = minWidth - 1; i < maxWidth + 1; i++)
 			{
 				pixels[minHeight][i] = pix;
 				pixels[maxHeight][i] = pix;
@@ -264,7 +265,7 @@ public class Finder
 				}
 
 			}
-			if(tmpReal.size()==6)
+			if (tmpReal.size() == 6)
 			{
 				sREAL.add(tmpReal);
 			}

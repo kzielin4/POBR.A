@@ -1,5 +1,8 @@
 package Zielinski.Kamil.View;
 
+/*
+ * Klasa odpowiedzialna za wyœwietlanie przetworzonego obrazu
+ */
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,17 +15,16 @@ import javax.swing.JLabel;
 
 public class DisplayImage
 {
-	 public DisplayImage(File file) throws IOException
-	    {
-	        BufferedImage img=ImageIO.read(file);
-	        ImageIcon icon=new ImageIcon(img);
-	        JFrame frame=new JFrame();
-	        frame.setLayout(new FlowLayout());
-	        frame.setSize(800,1020);
-	        JLabel lbl=new JLabel();
-	        lbl.setIcon(icon);
-	        frame.add(lbl);
-	        frame.setVisible(true);
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    }
+	public DisplayImage(File file) throws IOException {
+		BufferedImage img = ImageIO.read(file);
+		ImageIcon icon = new ImageIcon(img);
+		JFrame frame = new JFrame();
+		frame.setLayout(new FlowLayout());
+		frame.setSize(icon.getIconWidth(),icon.getIconHeight());
+		JLabel lbl = new JLabel();
+		lbl.setIcon(icon);
+		frame.add(lbl);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+	}
 }

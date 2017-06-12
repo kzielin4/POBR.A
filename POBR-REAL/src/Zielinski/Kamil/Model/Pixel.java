@@ -1,8 +1,9 @@
+/*
+ * Klasa reprezentuj¹ca strukture Pixela
+ */
 package Zielinski.Kamil.Model;
 
-
-
-class Pixel
+public class Pixel
 {
 
 	final static Pixel BLACK = new Pixel(0, 0, 0);
